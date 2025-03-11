@@ -1,0 +1,156 @@
+:root {
+    --sidebar-width: 250px;
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --sidebar-bg: #343a40;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    color: white;
+    transition: all 0.3s;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.sidebar-menu {
+    padding: 0;
+}
+
+.sidebar-menu .nav-link {
+    padding: 15px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    border-left: 3px solid transparent;
+    transition: all 0.2s;
+}
+
+.sidebar-menu .nav-link:hover, 
+.sidebar-menu .nav-link.active {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left-color: var(--primary-color);
+}
+
+.sidebar-menu .nav-link i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+/* Main content */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+    display: none;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1050;
+}
+
+/* Info cards */
+.info-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+}
+
+.info-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Status badges */
+.badge-published {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.badge-review {
+    background-color: var(--warning-color);
+    color: black;
+}
+
+.badge-draft {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+/* For mobile view */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .sidebar-toggle {
+        display: block;
+    }
+    
+    .main-content.sidebar-open {
+        margin-left: var(--sidebar-width);
+    }
+}
+
+/* Sticky table header */
+.table-responsive {
+    min-height: 300px;
+}
+
+.action-btns .btn {
+    padding: 0.25rem 0.5rem;
+    margin: 0 2px;
+}
+
+/* Coauthor styles */
+.coauthor-item {
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+.coauthor-list {
+    max-height: 150px;
+    overflow-y: auto;
+}
