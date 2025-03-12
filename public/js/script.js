@@ -40,3 +40,27 @@ document.querySelectorAll('.coauthor-item button').forEach(button => {
         this.closest('.coauthor-item').remove();
     });
 });
+
+
+function viewProductPdf(idProducto) {
+    // Hacer fetch a ver_pdf.php con el id del producto
+    fetch('ver_pdf.php?id=' + idProducto)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error al obtener el PDF");
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            // Crear una URL del blob
+            const url = URL.createObjectURL(blob);
+            // Asignar la URL al iframe del modal
+            document.getElementById('pdfIframe').src = url;
+            // Mostrar el modal (usando Bootstrap)
+            var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+            pdfModal.show();
+        })
+        .catch(error => {
+            alert("No se pudo cargar el PDF: " + error);
+        });
+}
