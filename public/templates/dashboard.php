@@ -110,7 +110,7 @@ if (empty($_SESSION["id_autor"])) {
                                     <td><?php echo htmlspecialchars($row["titulo"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["tipo"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["estado"]); ?></td>
-                                    <td><?php echo htmlspecialchars($row["fecha"]); ?></td>
+                                    <td><?php echo htmlspecialchars($row["fecha"]?? ""); ?></td>
                                     <td><?php echo htmlspecialchars($row["coautores"]); ?></td>
                                     <td>
                                         <?php if (!empty($row["pdf_nombre"])): ?>

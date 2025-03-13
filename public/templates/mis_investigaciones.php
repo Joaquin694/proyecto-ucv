@@ -41,10 +41,10 @@ if (empty($_SESSION["id_autor"])) {
                             <td><?php echo htmlspecialchars($inv['titulo']); ?></td>
                             <td><?php echo htmlspecialchars($inv['nombre_tipo_producto']); ?></td>
                             <td><?php echo htmlspecialchars($inv['estado']); ?></td>
-                            <td><?php echo htmlspecialchars($inv['fecha_publicacion']); ?></td>
-                            <td><?php echo htmlspecialchars($inv['cuartil']); ?></td>
-                            <td><?php echo htmlspecialchars($inv['linea_general']); ?></td>
-                            <td><?php echo htmlspecialchars($inv['linea_especifica']); ?></td>
+                            <td><?php echo htmlspecialchars($inv['fecha_publicacion'] ?? ""); ?></td>
+                            <td><?php echo htmlspecialchars($inv['cuartil'] ?? ""); ?></td>
+                            <td><?php echo htmlspecialchars($inv['linea_general'] ?? ""); ?></td>
+                            <td><?php echo htmlspecialchars($inv['linea_especifica'] ?? ""); ?></td>
                             <td>
                                 <?php if (!empty($inv['doi_url'])): ?>
                                     <a href="<?php echo htmlspecialchars($inv['doi_url']); ?>" target="_blank">
