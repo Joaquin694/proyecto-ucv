@@ -5,12 +5,18 @@ if (empty($_SESSION["id_autor"])) {
     header("location: login.php");
 }
 
+
+
+
+
 $section = "dashboard"; // Valor por defecto
 
 if (isset($_POST['section'])) {
     $section = $_POST['section'];
 }
 
+// Al inicio del archivo, antes de cualquier HTML
+include "../controlador/ControladorProductos.php";
 
 ?>
 <!DOCTYPE html>
@@ -34,7 +40,7 @@ if (isset($_POST['section'])) {
         <i class="fas fa-bars"></i>
     </button>
 
-    <!-- Sidebar -->
+
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -113,21 +119,19 @@ if (isset($_POST['section'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Se agrega method POST y multipart/form-data para subir archivos -->
+                    <!-- Formulario con enctype para subir archivos -->
                     <form id="productForm" method="post" enctype="multipart/form-data">
                         <!-- Campo oculto para indicar la acción en el controlador -->
                         <input type="hidden" name="action" value="create_product">
 
                         <div class="mb-3">
                             <label for="titulo" class="form-label">Título del Producto</label>
-                            <!-- Agregamos name="titulo" -->
                             <input type="text" class="form-control" id="titulo" name="titulo" required>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="tipoProducto" class="form-label">Tipo de Producto</label>
-                                <!-- name="tipo_producto" -->
                                 <select class="form-select" id="tipoProducto" name="tipo_producto" required>
                                     <option value="">Seleccionar...</option>
                                     <option value="1">Artículo</option>
@@ -139,7 +143,6 @@ if (isset($_POST['section'])) {
                             </div>
                             <div class="col-md-6">
                                 <label for="estado" class="form-label">Estado</label>
-                                <!-- name="estado" -->
                                 <select class="form-select" id="estado" name="estado" required>
                                     <option value="">Seleccionar...</option>
                                     <option value="1">Borrador</option>
@@ -152,7 +155,6 @@ if (isset($_POST['section'])) {
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="cuartil" class="form-label">Cuartil</label>
-                                <!-- name="cuartil" -->
                                 <select class="form-select" id="cuartil" name="cuartil">
                                     <option value="">No aplica</option>
                                     <option value="1">Q1</option>
@@ -163,7 +165,6 @@ if (isset($_POST['section'])) {
                             </div>
                             <div class="col-md-6">
                                 <label for="fechaPublicacion" class="form-label">Fecha de Publicación</label>
-                                <!-- name="fechaPublicacion" -->
                                 <input type="date" class="form-control" id="fechaPublicacion" name="fechaPublicacion">
                             </div>
                         </div>
@@ -171,7 +172,6 @@ if (isset($_POST['section'])) {
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label for="lineaGeneral" class="form-label">Línea de Investigación General</label>
-                                <!-- name="linea_general" -->
                                 <select class="form-select" id="lineaGeneral" name="linea_general" required>
                                     <option value="">Seleccionar...</option>
                                     <option value="1">Inteligencia Artificial</option>
@@ -182,7 +182,6 @@ if (isset($_POST['section'])) {
                             </div>
                             <div class="col-md-6">
                                 <label for="lineaEspecifica" class="form-label">Línea de Investigación Específica</label>
-                                <!-- name="linea_especifica" -->
                                 <select class="form-select" id="lineaEspecifica" name="linea_especifica" required>
                                     <option value="">Seleccionar...</option>
                                     <option value="1">Aprendizaje Automático</option>
@@ -195,13 +194,11 @@ if (isset($_POST['section'])) {
 
                         <div class="mb-3">
                             <label for="doiUrl" class="form-label">DOI/URL</label>
-                            <!-- name="doiUrl" -->
                             <input type="text" class="form-control" id="doiUrl" name="doiUrl">
                         </div>
 
                         <div class="mb-3">
                             <label for="principalResultado" class="form-label">Resultado Principal</label>
-                            <!-- name="principalResultado" -->
                             <textarea class="form-control" id="principalResultado" name="principalResultado" rows="3"></textarea>
                         </div>
 
@@ -253,13 +250,82 @@ if (isset($_POST['section'])) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Se usará un iframe para mostrar el PDF -->
-                    <iframe id="pdfIframe" src="" style="width:100%; height:600px;" frameborder="0"></iframe>
+                    <!-- Contenedor para el PDF -->
+                    <div id="pdfContainer" style="width:100%; height:600px;"></div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Tus scripts de JavaScript -->
+    <script>
+        // Función para mostrar el PDF en el modal usando base64
+        function viewProductPdf(productId) {
+            // Mostrar el modal primero
+            var pdfModal = new bootstrap.Modal(document.getElementById('pdfModal'));
+            pdfModal.show();
+
+            // Mostrar indicador de carga
+            document.getElementById('pdfContainer').innerHTML = '<div class="text-center"><p>Cargando PDF...</p></div>';
+
+            // Hacer la petición AJAX para obtener el PDF
+            fetch('ver_pdf.php?id=' + productId)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Crear un objeto Blob con los datos del PDF
+                        const byteCharacters = atob(data.data);
+                        const byteArrays = [];
+
+                        for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+                            const slice = byteCharacters.slice(offset, offset + 512);
+
+                            const byteNumbers = new Array(slice.length);
+                            for (let i = 0; i < slice.length; i++) {
+                                byteNumbers[i] = slice.charCodeAt(i);
+                            }
+
+                            const byteArray = new Uint8Array(byteNumbers);
+                            byteArrays.push(byteArray);
+                        }
+
+                        const blob = new Blob(byteArrays, {
+                            type: 'application/pdf'
+                        });
+                        const blobUrl = URL.createObjectURL(blob);
+
+                        // Crear el iframe dinámicamente
+                        document.getElementById('pdfContainer').innerHTML = `
+          <iframe src="${blobUrl}" style="width:100%; height:600px;" frameborder="0"></iframe>
+        `;
+                    } else {
+                        // Mostrar mensaje de error
+                        document.getElementById('pdfContainer').innerHTML = `
+          <div class="alert alert-danger">
+            ${data.message || 'Error al cargar el PDF'}
+          </div>
+        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('pdfContainer').innerHTML = `
+        <div class="alert alert-danger">
+          Error de conexión. No se pudo cargar el PDF.
+        </div>
+      `;
+                });
+        }
+
+        // Añadir botón para agregar producto
+        document.addEventListener('DOMContentLoaded', function() {
+            // Botón para mostrar el modal de agregar producto
+            document.getElementById('addProductBtn').addEventListener('click', function() {
+                var productModal = new bootstrap.Modal(document.getElementById('productModal'));
+                productModal.show();
+            });
+        });
+    </script>
 
 
     <!-- JavaScript Dependencies -->

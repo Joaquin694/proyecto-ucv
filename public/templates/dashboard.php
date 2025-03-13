@@ -100,7 +100,7 @@ if (empty($_SESSION["id_autor"])) {
                             <th>Estado</th>
                             <th>Fecha</th>
                             <th>Coautores</th>
-                            <th>PDF</th> <!-- Nueva columna -->
+                            <th>PDF</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -113,12 +113,15 @@ if (empty($_SESSION["id_autor"])) {
                                     <td><?php echo htmlspecialchars($row["fecha"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["coautores"]); ?></td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary"
-                                            onclick="viewProductPdf(<?php echo $row['id_producto']; ?>)">
-                                            Ver PDF
-                                        </button>
+                                        <?php if (!empty($row["pdf_nombre"])): ?>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="viewProductPdf(<?php echo $row['id_producto']; ?>)">
+                                                Ver PDF
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="text-muted">Sin PDF</span>
+                                        <?php endif; ?>
                                     </td>
-
                                 </tr>
                             <?php endwhile; ?>
                         <?php else: ?>
@@ -127,28 +130,8 @@ if (empty($_SESSION["id_autor"])) {
                             </tr>
                         <?php endif; ?>
                     </tbody>
-
                 </table>
             </div>
-
-            <!-- Pagination -->
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <i class="fas fa-angle-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fas fa-angle-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>
