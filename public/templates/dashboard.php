@@ -14,10 +14,7 @@ if (empty($_SESSION["id_autor"])) {
         </div>
         <div class="col-md-4">
             <div class="input-group">
-                <span class="input-group-text bg-white">
-                    <i class="fas fa-search"></i>
-                </span>
-                <input type="text" class="form-control" placeholder="Buscar producto...">
+
             </div>
         </div>
         <div class="col-md-2 text-end">

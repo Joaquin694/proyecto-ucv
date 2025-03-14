@@ -15,7 +15,7 @@ if (empty($_SESSION["id_autor"])) {
 
     <!-- Barra de búsqueda -->
     <form method="get" class="d-flex mb-3">
-        <input type="text" name="q" class="form-control me-2" placeholder="Buscar...">
+        <input type="text" name="q" class="form-control me-2" placeholder="Buscar..." value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q']) : ''; ?>">
         <button type="submit" class="btn btn-primary">Buscar</button>
     </form>
 

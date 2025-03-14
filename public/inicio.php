@@ -174,20 +174,16 @@ include "../controlador/ControladorProductos.php";
                                 <label for="lineaGeneral" class="form-label">Línea de Investigación General</label>
                                 <select class="form-select" id="lineaGeneral" name="linea_general" required>
                                     <option value="">Seleccionar...</option>
-                                    <option value="1">Inteligencia Artificial</option>
-                                    <option value="2">Desarrollo de Software</option>
-                                    <option value="3">Ciencia de Datos</option>
-                                    <option value="4">Ciberseguridad</option>
+                                    <option value="1">Ingeniería de Software</option>
+                                    <option value="2">Ciencias de la Salud</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="lineaEspecifica" class="form-label">Línea de Investigación Específica</label>
                                 <select class="form-select" id="lineaEspecifica" name="linea_especifica" required>
                                     <option value="">Seleccionar...</option>
-                                    <option value="1">Aprendizaje Automático</option>
-                                    <option value="2">Procesamiento de Lenguaje Natural</option>
-                                    <option value="3">Visión por Computador</option>
-                                    <option value="4">Análisis de Datos</option>
+                                    <option value="1">Machine Learning</option>
+                                    <option value="2">Biotecnología Vegetal</option>
                                 </select>
                             </div>
                         </div>
@@ -212,20 +208,10 @@ include "../controlador/ControladorProductos.php";
                         <div class="mb-3">
                             <label class="form-label">Coautores</label>
                             <div class="coauthor-list mb-2">
-                                <div class="coauthor-item d-flex justify-content-between align-items-center">
-                                    <span>María Rodríguez (maria@example.com)</span>
-                                    <button type="button" class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                <div class="coauthor-item d-flex justify-content-between align-items-center">
-                                    <span>Carlos López (carlos@example.com)</span>
-                                    <button type="button" class="btn btn-sm btn-outline-danger">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
+                                <!-- Mostrar lista de Coautores -->
                             </div>
                             <div class="input-group">
+                                <!-- Que se aliste la creacion de un nuevo Coautor pero q solo se agregue cuando se envie todo el formulario -->
                                 <input type="email" class="form-control" id="coauthorEmail" placeholder="Email del coautor">
                                 <button class="btn btn-outline-primary" type="button" id="addCoauthorBtn">Agregar</button>
                             </div>
