@@ -1,5 +1,4 @@
 <?php
-
 // 1) Verificar si el usuario está logueado
 if (!isset($_SESSION["id_autor"])) {
     header("Location: ../login.php");
@@ -20,7 +19,6 @@ $where = " WHERE ap.id_autor = $idAutor ";
 
 // Si se ingresó un término de búsqueda, agregar condiciones adicionales
 if (!empty($q)) {
-    // Escapar el término de búsqueda para evitar inyección SQL
     $qEscaped = $conexion->real_escape_string($q);
     $where .= " AND (
                     pi.titulo_producto LIKE '%$qEscaped%' OR 
@@ -34,9 +32,10 @@ if (!empty($q)) {
                 ) ";
 }
 
-// 6) Construir la consulta SQL completa
+// 6) Construir la consulta SQL completa (incluye id_producto y pdf_nombre)
 $sql = "
     SELECT 
+        pi.id_producto AS id_producto,
         pi.titulo_producto AS titulo,
         t.nombre_tipo_producto AS nombre_tipo_producto,
         e.nombre_estado AS estado,
@@ -45,7 +44,8 @@ $sql = "
         lg.nombre_linea_general AS linea_general,
         le.nombre_linea_especifica AS linea_especifica,
         pi.doi_url,
-        pi.principal_resultado
+        pi.principal_resultado,
+        pi.pdf_nombre
     FROM producto_investigacion pi
     JOIN tipo_producto_investigacion t 
         ON pi.id_tipo_producto = t.id_tipo_producto

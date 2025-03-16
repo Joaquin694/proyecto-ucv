@@ -96,7 +96,6 @@ if (empty($_SESSION["id_autor"])) {
                             <th>Tipo</th>
                             <th>Estado</th>
                             <th>Fecha</th>
-                            <th>Coautores</th>
                             <th>PDF</th>
                         </tr>
                     </thead>
@@ -108,7 +107,6 @@ if (empty($_SESSION["id_autor"])) {
                                     <td><?php echo htmlspecialchars($row["tipo"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["estado"]); ?></td>
                                     <td><?php echo htmlspecialchars($row["fecha"]?? ""); ?></td>
-                                    <td><?php echo htmlspecialchars($row["coautores"]); ?></td>
                                     <td>
                                         <?php if (!empty($row["pdf_nombre"])): ?>
                                             <button type="button" class="btn btn-sm btn-outline-secondary"

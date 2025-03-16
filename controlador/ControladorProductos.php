@@ -70,6 +70,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["action"]) && $_POST["
                 ";
                 $conexion->query($sqlAutorProd);
 
+                // -------------------- Vincular coautores --------------------
+                // Se espera que en el formulario se haya enviado un select multiple 
+                // con name="list_coautores[]" conteniendo los ID de los coautores seleccionados.
+                if (isset($_POST["list_coautores"]) && is_array($_POST["list_coautores"])) {
+                    foreach ($_POST["list_coautores"] as $coautorId) {
+                        // Asegurarse de que el id sea entero y válido
+                        $coautorId = intval($coautorId);
+                        if ($coautorId > 0) {
+                            $sqlCoautor = "
+                                INSERT INTO autor_producto (id_autor, id_producto, rol_autor)
+                                VALUES ($coautorId, $idProducto, 'Coautor')
+                            ";
+                            $conexion->query($sqlCoautor);
+                        }
+                    }
+                }
+                // -----------------------------------------------------------
+
                 // Establece un mensaje de éxito en lugar de redirigir
                 $success_msg = "Producto creado correctamente.";
             } else {

@@ -207,15 +207,22 @@ include "../controlador/ControladorProductos.php";
                         <!-- Coauthors Section (visual) -->
                         <div class="mb-3">
                             <label class="form-label">Coautores</label>
-                            <div class="coauthor-list mb-2">
-                                <!-- Mostrar lista de Coautores -->
-                            </div>
-                            <div class="input-group">
-                                <!-- Que se aliste la creacion de un nuevo Coautor pero q solo se agregue cuando se envie todo el formulario -->
-                                <input type="email" class="form-control" id="coauthorEmail" placeholder="Email del coautor">
-                                <button class="btn btn-outline-primary" type="button" id="addCoauthorBtn">Agregar</button>
-                            </div>
+                            <select class="form-select" id="coautores" name="list_coautores[]" multiple required>
+                                <!-- Valor vacío para forzar la selección -->
+                                <option value="">Seleccionar...</option>
+                                <?php
+                                // Suponiendo que ya se incluyó la conexión ($conexion) y se tiene $idAutor (usuario logueado)
+                                $sqlCoautores = "SELECT id_autor, nombre_autor FROM autores WHERE id_autor <> $idAutor";
+                                $resultCoautores = $conexion->query($sqlCoautores);
+                                if ($resultCoautores && $resultCoautores->num_rows > 0) {
+                                    while ($row = $resultCoautores->fetch_assoc()) {
+                                        echo '<option value="' . $row['id_autor'] . '">' . htmlspecialchars($row['nombre_autor']) . '</option>';
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
